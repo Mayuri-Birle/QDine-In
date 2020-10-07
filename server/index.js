@@ -62,9 +62,6 @@ app.get("/dishes", async (req, res) => {
   }
 });
 
-
-
-
 //ADD DISHES
 
 app.post("/dishes", async (req, res) => {
@@ -83,6 +80,45 @@ app.post("/dishes", async (req, res) => {
     res.json({
       message: err
     });
+  };
+})
+
+//UPDATE DISHES
+
+app.patch('/dishes/:id', async (req, res) => {
+  try {
+      const updatePost = await Dishes.updateOne({
+          _id: req.params.id
+      }, {
+          $set: {
+            name: req.body.name,
+            image: req.body.image,
+            price: req.body.price,
+            category: req.body.category,
+            desc: req.body.desc,
+            quantity: req.body.quantity
+          }
+      });
+      res.json(updatePost);
+  } catch (err) {
+      res.json({
+          message: err
+      });
+  };
+})
+
+//DELETE DISHES
+
+app.delete('/dishes/:id', async (req, res) => {
+  try {
+      const removePost = await Dishes.remove({
+          _id: req.params.id
+      });
+      res.json(removePost);
+  } catch (err) {
+      res.json({
+          message: err
+      });
   };
 })
 
